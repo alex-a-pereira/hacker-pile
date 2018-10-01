@@ -1,31 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserAuthService } from '../user-auth.service';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { UserAuthService } from "../user-auth.service";
+import { NgForm } from "@angular/forms";
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  selector: "app-signin",
+  templateUrl: "./signin.component.html",
+  styleUrls: ["./signin.component.scss"]
 })
 export class SigninComponent implements OnInit {
-  @ViewChild('usrForm') form: NgForm;
+  @ViewChild("signinForm")
+  form: NgForm;
   didFail = false;
   isLoading = false;
-  constructor(private authService: UserAuthService) {
-  }
+  constructor(private authService: UserAuthService) {}
 
-  ngOnInit() {
-    // this.authService.authIsLoading.subscribe(
-    //   (isLoading: boolean) => this.isLoading = isLoading
-    // );
-    // this.authService.authDidFail.subscribe(
-    //   (didFail: boolean) => this.didFail = didFail
-    // );
-  }
-
-  onSubmit() {
-    const usrName = this.form.value.username;
-    const password = this.form.value.password;
-    // this.authService.signIn(usrName, password);
-  }
+  ngOnInit() {}
 }

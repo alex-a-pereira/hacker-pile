@@ -7,7 +7,7 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./files-create.component.scss"]
 })
 export class FilesCreateComponent implements OnInit {
-  @ViewChild("compareForm")
+  @ViewChild("createFileForm")
   form: NgForm;
 
   createFileFailed: Boolean = false;
@@ -15,21 +15,7 @@ export class FilesCreateComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // this.fileService.deleteFileFailed.subscribe(
-    //   (didFail: boolean) => (this.createFileFailed = didFail)
-    // );
+    
   }
 
-//   onSubmit() {
-//     const data: FileData = {
-//       fileName: this.form.value.name as string,
-//       fileLanguage: this.form.value.language as string,
-//       fileNotes: this.form.value.notes as string
-//     };
-//     this.fileService.onCreateFileSubmit(data);
-//   }
-
-//   onFetchStoredData() {
-//     this.fileService.onRetrieveFileDirectory();
-//   }
 }
