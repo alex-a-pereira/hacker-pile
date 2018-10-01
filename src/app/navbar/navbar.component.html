@@ -1,13 +1,17 @@
 <nav class="site-header sticky-top py-1">
   <div class="container d-flex flex-column flex-md-row justify-content-between">
-    <a class="py-2" href="#">
+    <a class="py-2" routerLink="/">
       <strong>Hacker Pile</strong>
     </a>
 
-    <a class="py-2 d-none d-md-inline-block" href="#">How it works</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">About us</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/docs">How it works</a>
+    <a class="py-2 d-none d-md-inline-block" routerLink="/about">About us</a>
 
-    <a class="py-2 d-none d-md-inline-block" href="#">Sign up (Files)</a>
-    <a class="py-2 d-none d-md-inline-block" href="#">Sign in (out)</a>
+    <a *ngIf="isAuthenticated" class="py-2 d-none d-md-inline-block" routerLink="/files">Files</a>
+    <a *ngIf="isAuthenticated" class="py-2 d-none d-md-inline-block" routerLink="/">Sign out</a>
+
+    <a *ngIf="!isAuthenticated" class="py-2 d-none d-md-inline-block" routerLink="/signup">Sign up</a>
+    <a *ngIf="!isAuthenticated" class="py-2 d-none d-md-inline-block" routerLink="/signin">Sign in</a>
+  
   </div>
 </nav>
