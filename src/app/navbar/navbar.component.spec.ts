@@ -1,6 +1,5 @@
 
 import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
@@ -9,7 +8,7 @@ describe('NavbarComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MatSidenavModule],
+      imports: [],
       declarations: [NavbarComponent]
     })
     .compileComponents();

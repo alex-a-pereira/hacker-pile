@@ -1,20 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor() {}
   
-  ngOnInit() {
-    // const auth = {
-    //   authenticated: true
-    // }
-  }
     
   
   
