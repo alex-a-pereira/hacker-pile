@@ -1,3 +1,11 @@
-<p>
-  files-main works!
-</p>
+<div>
+  <h2>File Name</h2>
+  <hr>
+  <div class="border">
+    <ngx-codemirror [options]="options" (ngModelChange)="handleChange($event)" [ngModel]="defaults['python']" [autoFocus]="true"
+      (ngModelChange)="handleChange($event)"></ngx-codemirror>
+  </div>
+  <hr>
+  <h4>Notes about this file</h4>
+  <textarea class="form-control" aria-label="Notes"></textarea>
+</div>
