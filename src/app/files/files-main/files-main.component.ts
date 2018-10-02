@@ -1,31 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-const defaults = {
-  python:
-    'print(\"hello world!\")',
-};
+import { FilesService } from "../files.service";
+import { FileData } from "../files.model";
 
 @Component({
-  selector: 'app-files-main',
-  templateUrl: './files-main.component.html',
-  styleUrls: ['./files-main.component.scss']
+  selector: "app-files-main",
+  templateUrl: "./files-main.component.html",
+  styleUrls: ["./files-main.component.scss"]
 })
 export class FilesMainComponent implements OnInit {
   readOnly = false;
-  
-  options: any = {
+
+  codeboxValue = 'print("hello world!")';
+
+  codeboxOptions: any = {
     lineNumbers: true,
-    mode: 'python',
-    theme: 'neo'
+    mode: "python",
+    theme: "neo"
   };
 
-  defaults = defaults;
+  constructor(private filesService: FilesService) {}
+
+  ngOnInit() {}
 
   handleChange($event) {
-    console.log('ngModelChange', $event);
+    console.log($event);
   }
-
-  ngOnInit() {
-  }
-
 }

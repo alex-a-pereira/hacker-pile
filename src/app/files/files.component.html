@@ -1,13 +1,37 @@
-<div class="container-fluid">
+<div class="container-fluid pt-3">
 
-<div class="row">
-  <div class="col-2">
-    <app-files-directory></app-files-directory>
-  </div>
-  <div class="col-10">
-    <!-- <app-files-main></app-files-main> -->
-    <!-- <app-files-create></app-files-create> -->
-    <app-files-delete></app-files-delete>
+  <div class="row border-top">
+    <div class="col-2">
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Files</strong></li>
+        <!-- *ngFor to iterate through 'n' number of files from API-->
+        <a *ngFor="let file of directoryFiles"
+          class="list-group-item list-group-item-action"
+          style="cursor: pointer;"
+          (click)="onSelectFile(file.FileId)"
+          [ngClass]="getFileDirectoryClass(file.FileId)">
+          {{file.FileName}}
+        </a>
+        <!-- Create and Delete file buttons trigger view change -->
+        <li class="list-group-item"><strong>Actions</strong></li>
+        <a style="cursor: pointer;"
+          (click)="onCreateFile(); selectedTag='create';"
+          class="list-group-item list-group-item-action"
+          [ngClass]="getFileDirectoryClass('create')">Create
+          file</a>
+        <a style="cursor: pointer;"
+          (click)="onDeleteFile(); selectedTag='delete';"
+          class="list-group-item list-group-item-action"
+          [ngClass]="getFileDirectoryClass('delete')">Delete
+          file</a>
+
+      </ul>
+    </div>
+    <div class="col-10 pb-3">
+      <app-files-main *ngIf="!viewingCreateFile && !viewingDeleteFile"></app-files-main>
+      <app-files-create *ngIf="viewingCreateFile"></app-files-create>
+      <app-files-delete *ngIf="viewingDeleteFile"></app-files-delete>
+    </div>
   </div>
 </div>
-</div> 

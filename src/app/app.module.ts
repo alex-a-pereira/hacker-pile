@@ -1,10 +1,12 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-
-import {UserAuthService} from './user-auth/user-auth.service';
-
+import { HttpModule } from "@angular/http";
+import { CodemirrorModule } from "@ctrl/ngx-codemirror";
+// Services
+import { UserAuthService } from "./user-auth/user-auth.service";
+import { FilesService } from "./files/files.service";
+// Components
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FilesComponent } from "./files/files.component";
@@ -36,8 +38,14 @@ import { FooterComponent } from "./footer/footer.component";
     DocsPageComponent,
     FooterComponent
   ],
-  imports: [BrowserModule, FormsModule, AppRoutingModule, CodemirrorModule],
-  providers: [UserAuthService],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    AppRoutingModule,
+    CodemirrorModule
+  ],
+  providers: [UserAuthService, FilesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
