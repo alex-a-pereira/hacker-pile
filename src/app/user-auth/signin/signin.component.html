@@ -7,13 +7,14 @@
         <p>
           Please double check your username and password and try again.
         </p>
-        <p>If that doesn't work, <a href="#">reset your password</a>.</p>
+        <p>If you forgot it, you can <a href="#">reset your password</a>.</p>
       </div>
     </div>
   </div>
+  <div class="loader" *ngIf="isLoading"></div>
   <div class="row justify-content-center">
     <div class="col-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
-      <form class="text-center jumbotron" (ngSubmit)="onSubmit()" #usrForm="ngForm">
+      <form class="text-center jumbotron" (ngSubmit)="onSubmit()" #signinForm="ngForm">
         <div class="form-group">
           <label for="username" class="control-label">Username</label>
           <input type="text" id="username" name="username" ngModel class="form-control text-center" required>
@@ -22,9 +23,9 @@
           <label for="password" class="control-label">Password</label>
           <input type="password" id="password" name="password" ngModel class="form-control text-center" required>
         </div>
-        <button class="btn btn-info" type="submit" [disabled]="usrForm.invalid">Submit</button>
+        <button class="btn btn-info" type="submit" [disabled]="signinForm.invalid">Submit</button>
       </form>
-      <div class="loader" *ngIf="isLoading"></div>
+
     </div>
   </div>
 </div>

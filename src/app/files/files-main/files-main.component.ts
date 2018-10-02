@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-const defaults = {
-  python:
-    'print(\"hello world!\")',
-};
+import { FilesService } from "../files.service";
+import { FileData } from "../files.model";
 
 @Component({
-  selector: 'app-files-main',
-  templateUrl: './files-main.component.html',
-  styleUrls: ['./files-main.component.scss']
+  selector: "app-files-main",
+  templateUrl: "./files-main.component.html",
+  styleUrls: ["./files-main.component.scss"]
 })
 export class FilesMainComponent implements OnInit {
   readOnly = false;
@@ -20,8 +18,8 @@ export class FilesMainComponent implements OnInit {
 
   codeboxOptions: any = {
     lineNumbers: true,
-    mode: 'python',
-    theme: 'neo'
+    mode: "python",
+    theme: "neo"
   };
 
   constructor(private fileService: FilesService) {}

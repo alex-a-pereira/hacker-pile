@@ -1,9 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { Http, Headers, Response } from "@angular/http";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/map";
+
+const nullFile = {
+  FileName: null,
+  FileNotes: null,
+  FileContent: null,
+  FileId: null
+};
+
+// auth
+import { UserAuthService } from "../user-auth/user-auth.service";
+// models
+import { FileData, DirectoryFile, NewFile, UpdateFile } from "./files.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class FilesService {
+  directoryFiles = new Subject<DirectoryFile[]>();
+  selectedFile = new BehaviorSubject<FileData>(nullFile);
 
   selectedFileLoadFailed = new Subject<boolean>();
   directoryLoadFailed = new Subject<boolean>();
@@ -167,17 +185,9 @@ export class FilesService {
     });
   }
 
-  onUpdateFile(data: FileData) {
-    // convert FileData object to an object that the API will take
-    const submission = {
-      fileId: data.FileId,
-      fileNotes: data.FileNotes,
-      fileContent: data.FileContent,
-      fileName: data.FileName
-    };
-    const { fileId } = submission;
-
-    console.log("on update", data);
+  onUpdateFile(data: UpdateFile) {
+    const fileId = data.fileId;
+    console.log(data);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
@@ -188,7 +198,7 @@ export class FilesService {
         .put(
           "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files/" +
             fileId,
-          submission,
+          data,
           {
             headers: new Headers({
               Authorization: session.getIdToken().getJwtToken()
@@ -200,7 +210,6 @@ export class FilesService {
           updateStatus => {
             if (updateStatus) {
               console.log("updated", updateStatus);
-              this.selectedFile.next(data);
             } else {
               console.log("update failed");
             }
