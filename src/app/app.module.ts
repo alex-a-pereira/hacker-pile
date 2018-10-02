@@ -1,12 +1,12 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from '@angular/forms'; 
 import { NgModule } from "@angular/core";
-
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+
+import {UserAuthService} from './user-auth/user-auth.service';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { UserAuthComponent } from "./user-auth/user-auth.component";
 import { FilesComponent } from "./files/files.component";
 import { FilesMainComponent } from "./files/files-main/files-main.component";
 import { FilesDirectoryComponent } from "./files/files-directory/files-directory.component";
@@ -23,7 +23,6 @@ import { FooterComponent } from "./footer/footer.component";
 @NgModule({
   declarations: [
     AppComponent,
-    UserAuthComponent,
     FilesComponent,
     FilesMainComponent,
     FilesDirectoryComponent,
@@ -38,7 +37,7 @@ import { FooterComponent } from "./footer/footer.component";
     FooterComponent
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, CodemirrorModule],
-  providers: [],
+  providers: [UserAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

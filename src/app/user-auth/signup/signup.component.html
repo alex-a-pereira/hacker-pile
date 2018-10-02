@@ -1,8 +1,19 @@
 <div class="container-fluid mt-5">
-
   <div class="row justify-content-center">
+    <div class="row justify-content-center" *ngIf="didFail">
+      <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
+        <div class="alert alert-danger">
+          <h3>Oops, something went wrong</h3>
+          <p>
+            Please make sure that your password contains at least one number and one capital letter. If this error
+            continues to occur, please send us an email at info@hackerpile.com and we'll get you signed up!
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3">
-      <form class="text-center jumbotron" (ngSubmit)="onSubmit()" #usrForm="ngForm">
+      <form *ngIf="!isLoading && !didSucceed" class="text-center jumbotron" (ngSubmit)="onSubmit()" #signupForm="ngForm">
         <div class="form-group">
           <label for="name" class="control-label">Name</label>
           <input type="text" id="name" name="name" ngModel class="form-control text-center" required>
@@ -24,10 +35,19 @@
           <input type="password" id="confirmPassword" name="confirmPassword" ngModel class="form-control text-center"
             required>
         </div>
-        <div *ngIf="usrForm.value.password !== usrForm.value.confirmPassword">Passwords do not match!</div>
-        <button class="btn btn-info" type="submit" [disabled]="(usrForm.value.password !== usrForm.value.confirmPassword) || usrForm.invalid">Submit
+        <div class="alert alert-danger" *ngIf="signupForm.value.password !== signupForm.value.confirmPassword">Passwords
+          do not match!</div>
+        <button class="btn btn-info" type="submit" [disabled]="(signupForm.value.password !== signupForm.value.confirmPassword) || signupForm.invalid">Submit
         </button>
       </form>
+      <div class="alert alert-success" *ngIf="didSucceed">
+        <h3>You're signed up!</h3>
+        <h4> Next step: check your email</h4>
+        <p>You should be receiving a verification email any second. Make sure you check your junk and spam folders!</p>
+        <!-- <p>If you've waited a bit and still think you won't be getting the email, try <a href="/"><strong>resending the
+              verification email</strong></a></p> -->
+      </div>
+      <div *ngIf="isLoading" class="loader"></div>
     </div>
   </div>
 
