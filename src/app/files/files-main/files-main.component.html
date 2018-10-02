@@ -1,11 +1,21 @@
 <div>
-  <h2>File Name</h2>
+  <h2>File Name </h2>
+  <button style="float: right"
+    class="btn btn-large btn-info"
+    (click)="saveFile()">Save</button>
   <hr>
   <div class="border">
-    <ngx-codemirror [options]="options" (ngModelChange)="handleChange($event)" [ngModel]="defaults['python']" [autoFocus]="true"
-      (ngModelChange)="handleChange($event)"></ngx-codemirror>
+    <ngx-codemirror [options]="codeboxOptions"
+      (ngModelChange)="handleCodeChange($event)"
+      [ngModel]="codeboxValue"
+      [autoFocus]="true"
+      (ngModelChange)="handleCodeChange($event)"></ngx-codemirror>
   </div>
   <hr>
   <h4>Notes about this file</h4>
-  <textarea class="form-control" aria-label="Notes"></textarea>
+
+  <textarea class="form-control"
+    [ngModel]="notesValue"
+    (ngModelChange)="handleNotesChange($event)"
+    aria-label="Notes"></textarea>
 </div>

@@ -12,20 +12,50 @@ const defaults = {
 })
 export class FilesMainComponent implements OnInit {
   readOnly = false;
-  
-  options: any = {
+
+  selectedFile;
+
+  codeboxValue = 'print("hello world!")';
+  notesValue = "Cool notes about your file go here";
+
+  codeboxOptions: any = {
     lineNumbers: true,
     mode: 'python',
     theme: 'neo'
   };
 
-  defaults = defaults;
-
-  handleChange($event) {
-    console.log('ngModelChange', $event);
-  }
+  constructor(private fileService: FilesService) {}
 
   ngOnInit() {
+    this.fileService.selectedFile.subscribe((newFile: FileData) => {
+      this.selectedFile = newFile;
+      this.codeboxValue = newFile.FileContent;
+      this.notesValue = newFile.FileNotes;
+    });
   }
 
+  saveFile() {
+    if (
+      this.codeboxValue == this.selectedFile.FileContent &&
+      this.notesValue == this.selectedFile.FileNotes
+    ) {
+      return;
+    } else {
+      const dataToUpdateWith: FileData = {
+        ...this.selectedFile,
+        FileNotes: escape(this.notesValue),
+        FileContent: escape(this.codeboxValue)
+      };
+      console.log(dataToUpdateWith);
+      this.fileService.onUpdateFile(dataToUpdateWith);
+    }
+  }
+
+  handleCodeChange($event) {
+    this.codeboxValue = $event;
+  }
+
+  handleNotesChange($event) {
+    this.notesValue = $event;
+  }
 }
