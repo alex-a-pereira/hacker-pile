@@ -14,3 +14,9 @@ export interface NewFile {
   fileName: string;
   fileNotes: string;
 }
+
+export interface UpdateFile {
+  fileId: string;
+  fileNotes: string;
+  fileContent: string;
+}

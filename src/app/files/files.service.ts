@@ -14,7 +14,7 @@ const nullFile = {
 // auth
 import { UserAuthService } from "../user-auth/user-auth.service";
 // models
-import { FileData, DirectoryFile, NewFile } from "./files.model";
+import { FileData, DirectoryFile, NewFile, UpdateFile } from "./files.model";
 
 @Injectable({
   providedIn: "root"
@@ -35,6 +35,45 @@ export class FilesService {
   // appState: AppState = AppState.VIEW;
 
   constructor(private http: Http, private authService: UserAuthService) {}
+
+  onRetrieveFileDirectory(selectIdx = -999) {
+    this.directoryLoadFailed.next(false);
+
+    this.authService.getAuthenticatedUser().getSession((err, session) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.http
+        .get(
+          "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files",
+          {
+            headers: new Headers({
+              Authorization: session.getIdToken().getJwtToken()
+            })
+          }
+        )
+        .map((response: Response) => response.json())
+        .subscribe(
+          receivedFiles => {
+            if (receivedFiles) {
+              this.directoryFiles.next(receivedFiles);
+              if (selectIdx >= 0) {
+                this.onSelectFile(receivedFiles[selectIdx].FileId);
+              }
+            } else {
+              console.log("No files returned from API call");
+              this.directoryLoadFailed.next(true);
+            }
+          },
+          error => {
+            console.log(error);
+            this.directoryLoadFailed.next(true);
+            this.directoryFiles.next(null);
+          }
+        );
+    });
+  }
 
   onSelectFile(fileId: string) {
     this.creatingFile.next(false);
@@ -146,8 +185,9 @@ export class FilesService {
     });
   }
 
-  onRetrieveFileDirectory(selectIdx = -999) {
-    this.directoryLoadFailed.next(false);
+  onUpdateFile(data: UpdateFile) {
+    const fileId = data.fileId;
+    console.log(data);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
@@ -155,8 +195,10 @@ export class FilesService {
         return;
       }
       this.http
-        .get(
-          "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files",
+        .put(
+          "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files/" +
+            fileId,
+          data,
           {
             headers: new Headers({
               Authorization: session.getIdToken().getJwtToken()
@@ -165,21 +207,15 @@ export class FilesService {
         )
         .map((response: Response) => response.json())
         .subscribe(
-          receivedFiles => {
-            if (receivedFiles) {
-              this.directoryFiles.next(receivedFiles);
-              if (selectIdx >= 0) {
-                this.onSelectFile(receivedFiles[selectIdx].FileId);
-              }
+          updateStatus => {
+            if (updateStatus) {
+              console.log("updated", updateStatus);
             } else {
-              console.log("No files returned from API call");
-              this.directoryLoadFailed.next(true);
+              console.log("update failed");
             }
           },
           error => {
-            console.log(error);
-            this.directoryLoadFailed.next(true);
-            this.directoryFiles.next(null);
+            console.log("update failed", error);
           }
         );
     });

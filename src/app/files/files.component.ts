@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
 import { FilesService } from "./files.service";
-import { FileData, DirectoryFile } from "./files.model";
+import { FileData, DirectoryFile, UpdateFile } from "./files.model";
 
 @Component({
   selector: "app-files",
@@ -92,6 +92,15 @@ export class FilesComponent implements OnInit, OnDestroy {
   onDeleteFile() {
     this.filesService.creatingFile.next(false);
     this.filesService.deletingFile.next(true);
+  }
+
+  onSave() {
+    const data: UpdateFile = {
+      fileId: "a6H9d8A0d2D4f2H7e",
+      fileNotes: "TESTING FROM VSCODE",
+      fileContent: "TESTING FROM VSCODE"
+    };
+    this.filesService.onUpdateFile(data);
   }
 
   getFileDirectoryClass(listItemTag: string) {
