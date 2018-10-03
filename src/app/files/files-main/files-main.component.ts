@@ -16,6 +16,10 @@ export class FilesMainComponent implements OnInit {
   codeboxValue = 'print("hello world!")';
   notesValue = "Cool notes about your file go here";
 
+  isChanged = false;
+  isLoadingUpdate = false;
+  updateFailure = false;
+
   codeboxOptions: any = {
     lineNumbers: true,
     mode: "python",
@@ -29,6 +33,21 @@ export class FilesMainComponent implements OnInit {
       this.selectedFile = newFile;
       this.codeboxValue = newFile.FileContent;
       this.notesValue = newFile.FileNotes;
+    });
+
+    this.fileService.updateFileFailed.subscribe((status: boolean) => {
+      console.log("status!!!", status);
+      if (status === true) {
+        this.isChanged = true;
+        this.updateFailure = false;
+      } else {
+        this.updateFailure = false;
+        this.isChanged = false;
+      }
+    });
+
+    this.fileService.updatingFile.subscribe((status: boolean) => {
+      this.isLoadingUpdate = status;
     });
   }
 
@@ -51,6 +70,8 @@ export class FilesMainComponent implements OnInit {
 
   handleCodeChange($event) {
     this.codeboxValue = $event;
+    this.isChanged = true;
+    console.log("is changed");
   }
 
   handleNotesChange($event) {

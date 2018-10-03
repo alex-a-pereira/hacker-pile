@@ -39,7 +39,7 @@ export class UserAuthService {
   ): void {
     this.authIsLoading.next(true);
     this.signupSuccess.next(false);
-    
+
     const user: UserSignup = {
       name: name,
       username: username,
@@ -128,7 +128,6 @@ export class UserAuthService {
         observer.next(false);
       } else {
         user.getSession((err, session) => {
-          console.log(user);
           if (err) {
             observer.next(false);
           } else {

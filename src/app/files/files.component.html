@@ -1,7 +1,14 @@
 <div class="container-fluid pt-3">
 
   <div class="row border-top">
-    <div class="col-2">
+
+    <div *ngIf="fileDirectoryLoading === true"
+      class="col-2">
+      <div class="loader"></div>
+    </div>
+
+    <div *ngIf="fileDirectoryLoading === false"
+      class="col-2">
 
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><strong>Files</strong></li>
@@ -28,7 +35,15 @@
 
       </ul>
     </div>
-    <div class="col-10 pb-3">
+
+
+    <div *ngIf="mainLoading === true"
+      class="col-10 pb-3">
+      <div class="loader"></div>
+    </div>
+
+    <div *ngIf="mainLoading === false"
+      class="col-10 pb-3">
       <app-files-main *ngIf="!viewingCreateFile && !viewingDeleteFile"></app-files-main>
       <app-files-create *ngIf="viewingCreateFile"></app-files-create>
       <app-files-delete *ngIf="viewingDeleteFile"></app-files-delete>

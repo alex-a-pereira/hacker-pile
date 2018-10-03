@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 
 import { FilesService } from "./files.service";
-import { FileData, DirectoryFile, UpdateFile } from "./files.model";
+import { FileData, DirectoryFile } from "./files.model";
 
 @Component({
   selector: "app-files",
@@ -14,6 +14,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   viewingCreateFile = false;
   viewingDeleteFile = false;
+
+  fileDirectoryLoading;
+  mainLoading;
 
   fileDirectoryDidFail = false;
   selectedFileDidFail = false;
@@ -40,6 +43,11 @@ export class FilesComponent implements OnInit, OnDestroy {
       }
     );
 
+    var directoryLoadingSub = this.filesService.directoryIsLoading.subscribe(
+      (status: boolean) => {
+        this.fileDirectoryLoading = status;
+      }
+    );
     // Listen for directory files list and if the FileDirectory is loading from API
     var directorySub = this.filesService.directoryFiles.subscribe(
       (filesList: DirectoryFile[]) => {
@@ -47,12 +55,17 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.directoryFiles = filesList;
       }
     );
-
     var directoryFailedSub = this.filesService.directoryLoadFailed.subscribe(
       (didFail: boolean) => (this.fileDirectoryDidFail = didFail)
     );
 
     // Listen for selected file change and if the file is loading from API
+    var mainLoadingSub = this.filesService.mainIsLoading.subscribe(
+      (status: boolean) => {
+        this.mainLoading = status;
+      }
+    );
+
     var selectedFileSub = this.filesService.selectedFile.subscribe(
       (file: FileData) => {
         this.currentFile = file;
@@ -70,7 +83,9 @@ export class FilesComponent implements OnInit, OnDestroy {
       directorySub,
       directoryFailedSub,
       selectedFileSub,
-      selectedFileFailSub
+      selectedFileFailSub,
+      mainLoadingSub,
+      directoryLoadingSub
     );
   }
 

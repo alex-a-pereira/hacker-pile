@@ -1,21 +1,45 @@
-<div>
-  <h2>File Name </h2>
-  <button style="float: right"
-    class="btn btn-large btn-info"
-    (click)="saveFile()">Save</button>
-  <hr>
-  <div class="border">
-    <ngx-codemirror [options]="codeboxOptions"
-      (ngModelChange)="handleCodeChange($event)"
-      [ngModel]="codeboxValue"
-      [autoFocus]="true"
-      (ngModelChange)="handleCodeChange($event)"></ngx-codemirror>
+<div class="pt-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-10">
+        <h2 class="align-top">{{selectedFile.FileName}} </h2>
+      </div>
+      <div class="col-2 pt-1">
+        <div *ngIf="isLoadingUpdate"
+          class="loader-mini"></div>
+        <button *ngIf="!isLoadingUpdate"
+          class="btn btn-large btn-block"
+          [ngClass]="{'btn-info': isChanged === true, 'btn-success': isChanged === false}"
+          (click)="saveFile()">Save</button>
+
+      </div>
+
+    </div>
   </div>
   <hr>
-  <h4>Notes about this file</h4>
 
-  <textarea class="form-control"
-    [ngModel]="notesValue"
-    (ngModelChange)="handleNotesChange($event)"
-    aria-label="Notes"></textarea>
+  <div class="container-fluid">
+    <div *ngIf="updateFailure"
+      class="alert alert-danger">
+      <h4>Something went wrong!</h4>
+      <p>We're really sorry, but something went wrong on our end. Try saving
+        the file again. We've been
+        alerted of this and will fix the issue shortly, but until then you'll
+        have to save save your code elsewhere.</p>
+    </div>
+    <div class="code-box border">
+      <ngx-codemirror [options]="codeboxOptions"
+        [ngModel]="codeboxValue"
+        [autoFocus]="true"
+        (ngModelChange)="handleCodeChange($event)"></ngx-codemirror>
+    </div>
+
+    <hr>
+    <h4>Notes about this file</h4>
+
+    <textarea class="form-control sharp"
+      [ngModel]="notesValue"
+      (ngModelChange)="handleNotesChange($event)"
+      aria-label="Notes"></textarea>
+  </div>
 </div>
