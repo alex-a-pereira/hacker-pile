@@ -24,9 +24,17 @@ export class FilesCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form);
+    let notes;
+    if (!this.form.value.notes) {
+      notes = " ";
+    } else {
+      notes = this.form.value.notes as string;
+    }
+    console.log(notes);
     const data: NewFile = {
       fileName: this.form.value.name as string,
-      fileNotes: this.form.value.notes as string
+      fileNotes: notes
     };
     this.fileService.onCreateFileSubmit(data);
   }
