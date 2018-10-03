@@ -185,9 +185,17 @@ export class FilesService {
     });
   }
 
-  onUpdateFile(data: UpdateFile) {
-    const fileId = data.fileId;
+  onUpdateFile(data: FileData) {
+    const fileId = data.FileId;
+
+    const submission = {
+      fileId: data.FileId,
+      fileName: data.FileName,
+      fileNotes: escape(data.FileNotes),
+      fileContent: escape(data.FileContent)
+    };
     console.log(data);
+    console.log(submission);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
@@ -198,7 +206,7 @@ export class FilesService {
         .put(
           "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files/" +
             fileId,
-          data,
+          submission,
           {
             headers: new Headers({
               Authorization: session.getIdToken().getJwtToken()
@@ -209,6 +217,7 @@ export class FilesService {
         .subscribe(
           updateStatus => {
             if (updateStatus) {
+              this.selectedFile.next(data);
               console.log("updated", updateStatus);
             } else {
               console.log("update failed");

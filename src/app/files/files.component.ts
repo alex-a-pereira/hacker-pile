@@ -94,15 +94,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.filesService.deletingFile.next(true);
   }
 
-  onSave() {
-    const data: UpdateFile = {
-      fileId: "a6H9d8A0d2D4f2H7e",
-      fileNotes: "TESTING FROM VSCODE",
-      fileContent: "TESTING FROM VSCODE"
-    };
-    this.filesService.onUpdateFile(data);
-  }
-
   getFileDirectoryClass(listItemTag: string) {
     if (listItemTag === this.selectedTag) {
       return "list-group-item-info";

@@ -21,6 +21,8 @@ import { LandingPageComponent } from "./static-pages/landing-page/landing-page.c
 import { AboutPageComponent } from "./static-pages/about-page/about-page.component";
 import { DocsPageComponent } from "./static-pages/docs-page/docs-page.component";
 import { FooterComponent } from "./footer/footer.component";
+import { ContactPageComponent } from './static-pages/contact-page/contact-page.component';
+import { StackAgeComponent } from './static-pages/stack-age/stack-age.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { FooterComponent } from "./footer/footer.component";
     LandingPageComponent,
     AboutPageComponent,
     DocsPageComponent,
-    FooterComponent
+    FooterComponent,
+    ContactPageComponent,
+    StackAgeComponent
   ],
   imports: [
     BrowserModule,

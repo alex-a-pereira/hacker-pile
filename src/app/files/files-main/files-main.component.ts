@@ -41,8 +41,8 @@ export class FilesMainComponent implements OnInit {
     } else {
       const dataToUpdateWith: FileData = {
         ...this.selectedFile,
-        FileNotes: escape(this.notesValue),
-        FileContent: escape(this.codeboxValue)
+        FileNotes: this.notesValue,
+        FileContent: this.codeboxValue
       };
       console.log(dataToUpdateWith);
       this.fileService.onUpdateFile(dataToUpdateWith);
