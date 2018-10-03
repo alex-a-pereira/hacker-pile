@@ -12,6 +12,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   directoryFiles: DirectoryFile[] = [];
   currentFile: FileData;
 
+  viewingWelcome;
   viewingCreateFile = false;
   viewingDeleteFile = false;
 
@@ -30,6 +31,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.filesService.onRetrieveFileDirectory();
+
     // Listen to createFile and deleteFile so filesService can
     // return back to FilesMain once operation is complete
     var creatingFileSub = this.filesService.creatingFile.subscribe(

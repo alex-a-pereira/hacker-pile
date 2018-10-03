@@ -1,14 +1,20 @@
-<div class="pt-3">
+<div class="pt-3" *ngIf="selectedFile.FileId === null">
+  <div class="container-fluid">
+    <h2>Welcome to your pile.</h2>
+    <h3>To get started, selected one of your files </h3>
+  </div>
+</div>
+
+<div class="pt-3" *ngIf="selectedFile.FileId !== null">
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-10">
         <h2 class="align-top">{{selectedFile.FileName}} </h2>
       </div>
       <div class="col-2 pt-1">
-        <div *ngIf="isLoadingUpdate"
-          class="loader-mini"></div>
-        <button *ngIf="!isLoadingUpdate"
-          class="btn btn-large btn-block"
+        <div *ngIf="isLoadingUpdate" class="loader-mini"></div>
+        <button *ngIf="!isLoadingUpdate" class="btn btn-large btn-block"
           [ngClass]="{'btn-info': isChanged === true, 'btn-success': isChanged === false}"
           (click)="saveFile()">Save</button>
 
@@ -18,9 +24,9 @@
   </div>
   <hr>
 
+
   <div class="container-fluid">
-    <div *ngIf="updateFailure"
-      class="alert alert-danger">
+    <div *ngIf="updateFailure" class="alert alert-danger">
       <h4>Something went wrong!</h4>
       <p>We're really sorry, but something went wrong on our end. Try saving
         the file again. We've been
@@ -28,18 +34,14 @@
         have to save save your code elsewhere.</p>
     </div>
     <div class="code-box border">
-      <ngx-codemirror [options]="codeboxOptions"
-        [ngModel]="codeboxValue"
-        [autoFocus]="true"
-        (ngModelChange)="handleCodeChange($event)"></ngx-codemirror>
+      <ngx-codemirror [options]="codeboxOptions" [ngModel]="codeboxValue"
+        [autoFocus]="true" (ngModelChange)="handleCodeChange($event)"></ngx-codemirror>
     </div>
 
     <hr>
     <h4>Notes about this file</h4>
 
-    <textarea class="form-control sharp"
-      [ngModel]="notesValue"
-      (ngModelChange)="handleNotesChange($event)"
+    <textarea class="form-control sharp" [ngModel]="notesValue" (ngModelChange)="handleNotesChange($event)"
       aria-label="Notes"></textarea>
   </div>
 </div>

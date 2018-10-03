@@ -8,12 +8,12 @@
 @import "../node_modules/codemirror/theme/neo.css";
 
 .CodeMirror {
-  min-height: 600px;
+  min-height: 500px;
 }
 
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #555; /* dark */
+  border-top: 16px solid #333333; /* dark */
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -21,9 +21,13 @@
   margin: 10px auto 10px auto;
 }
 
+.bg-dark-grey {
+  background: #333333;
+}
+
 .loader-mini {
   border: 4.8px solid #f3f3f3; /* Light grey */
-  border-top: 4.8px solid #555; /* dark */
+  border-top: 4.8px solid #333333; /* dark */
   border-radius: 50%;
   width: 36px;
   height: 36px;

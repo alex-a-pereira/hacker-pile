@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-
+import * as _ from "lodash";
 import { FilesService } from "../files.service";
 import { FileData } from "../files.model";
 
@@ -19,6 +19,8 @@ export class FilesMainComponent implements OnInit {
   isChanged = false;
   isLoadingUpdate = false;
   updateFailure = false;
+
+  autoSave = _.debounce(this.saveFile, 30000);
 
   codeboxOptions: any = {
     lineNumbers: true,
@@ -52,6 +54,7 @@ export class FilesMainComponent implements OnInit {
   }
 
   saveFile() {
+    console.log("autoSave called");
     if (
       this.codeboxValue == this.selectedFile.FileContent &&
       this.notesValue == this.selectedFile.FileNotes
@@ -71,10 +74,12 @@ export class FilesMainComponent implements OnInit {
   handleCodeChange($event) {
     this.codeboxValue = $event;
     this.isChanged = true;
-    console.log("is changed");
+    this.autoSave();
   }
 
   handleNotesChange($event) {
     this.notesValue = $event;
+    this.isChanged = true;
+    this.autoSave();
   }
 }

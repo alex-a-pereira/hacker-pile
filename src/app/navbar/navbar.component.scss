@@ -3,15 +3,15 @@
 }
 
 .site-header {
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(52, 58, 64, 1);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
 }
 .site-header a {
   color: #cacaca;
-  transition: ease-in-out color .15s;
+  transition: ease-in-out color 0.15s;
 }
 .site-header a:hover {
-  color: #fff;
+  color: rgb(33, 150, 169);
   text-decoration: none;
 }
