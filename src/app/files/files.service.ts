@@ -152,7 +152,6 @@ export class FilesService {
         .subscribe(
           deleteStatus => {
             if (deleteStatus) {
-              console.log("deleted", deleteStatus);
               this.onRetrieveFileDirectory(0);
               this.deletingFile.next(false);
               this.mainIsLoading.next(false);
@@ -216,8 +215,6 @@ export class FilesService {
       fileNotes: escape(data.FileNotes),
       fileContent: escape(data.FileContent)
     };
-    console.log(data);
-    console.log(submission);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
@@ -244,17 +241,16 @@ export class FilesService {
               this.selectedFile.next(data);
               this.updatingFile.next(false);
               this.updateFileFailed.next(false);
-              console.log("updated", updateStatus);
             } else {
               this.updatingFile.next(false);
               this.updateFileFailed.next(true);
-              console.log("update failed");
+              console.log(updateStatus);
             }
           },
           error => {
             this.updatingFile.next(false);
             this.updateFileFailed.next(true);
-            console.log("update failed", error);
+            console.log(error);
           }
         );
     });

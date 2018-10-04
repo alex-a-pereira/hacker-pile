@@ -20,7 +20,7 @@ export class FilesMainComponent implements OnInit {
   isLoadingUpdate = false;
   updateFailure = false;
 
-  autoSave = _.debounce(this.saveFile, 30000);
+  autoSave = _.debounce(this.saveFile, 12000);
 
   codeboxOptions: any = {
     lineNumbers: true,
@@ -38,7 +38,6 @@ export class FilesMainComponent implements OnInit {
     });
 
     this.fileService.updateFileFailed.subscribe((status: boolean) => {
-      console.log("status!!!", status);
       if (status === true) {
         this.isChanged = true;
         this.updateFailure = false;
@@ -54,11 +53,11 @@ export class FilesMainComponent implements OnInit {
   }
 
   saveFile() {
-    console.log("autoSave called");
     if (
       this.codeboxValue == this.selectedFile.FileContent &&
       this.notesValue == this.selectedFile.FileNotes
     ) {
+      this.isChanged = false;
       return;
     } else {
       const dataToUpdateWith: FileData = {

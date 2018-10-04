@@ -12,7 +12,7 @@ import { LandingPageComponent } from "./static-pages/landing-page/landing-page.c
 import { AboutPageComponent } from "./static-pages/about-page/about-page.component";
 import { DocsPageComponent } from "./static-pages/docs-page/docs-page.component";
 import { ContactPageComponent } from "./static-pages/contact-page/contact-page.component";
-import { StackAgeComponent } from "./static-pages/stack-age/stack-age.component";
+import { StackPageComponent } from "./static-pages/stack-page/stack-page.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: "signin", component: SigninComponent },
   { path: "signup", component: SignupComponent },
   { path: "contact", component: ContactPageComponent },
-  { path: "stack", component: StackAgeComponent },
+  { path: "stack", component: StackPageComponent },
   { path: "files", canActivate: [AuthGuardService], component: FilesComponent },
   { path: "*", component: LandingPageComponent }
 ];

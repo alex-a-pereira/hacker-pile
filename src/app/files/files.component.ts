@@ -53,7 +53,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     // Listen for directory files list and if the FileDirectory is loading from API
     var directorySub = this.filesService.directoryFiles.subscribe(
       (filesList: DirectoryFile[]) => {
-        console.log("data loaded", filesList);
         this.directoryFiles = filesList;
       }
     );

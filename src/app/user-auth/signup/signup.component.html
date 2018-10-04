@@ -1,62 +1,129 @@
 <div class="container-fluid mt-4">
 
-  <div class="row justify-content-center">
-    <div class="row justify-content-center" *ngIf="didFail">
-      <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
-        <div class="alert alert-danger">
-          <h3>Oops, something went wrong</h3>
-          <p>
-            Please make sure that your password contains at least one number
-            and one capital letter. If this error
-            continues to occur, please send us an email at info@hackerpile.com
-            and we'll get you signed up!
-          </p>
-        </div>
-      </div>
-    </div>
 
+  <div class="row justify-content-center"
+    *ngIf="didFail">
+    <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
+
+      <div *ngIf="errorMessage.code !== 'UsernameExistsException' && errorMessage.code !== 'UserLambdaValidationException'"
+        class="alert alert-danger">
+        <h3>Oops, something went wrong</h3>
+        <p>
+          Please make sure that your password contains at least one number
+          and one capital letter. If this error
+          continues to occur, please send us an email at <strong> <a class='text-info'
+              href="mailto:info@hackerpile.com?subject=HackerPile isn't letting me sign up!&body=Hi, I'm having trouble signing up for HackerPile. My account information is: ">info@hackerpile.com</a></strong>
+          and we'll get you signed up!
+        </p>
+      </div>
+
+      <div *ngIf="errorMessage.code === 'UsernameExistsException'"
+        class="alert alert-danger">
+        <h3>That username already exists!</h3>
+        <p>
+          Please select another username. Our user base isn't that big, so
+          adding a 1 to the end will probably work&nbsp; <i class="fa fa-smile"></i>
+        </p>
+      </div>
+
+      <div *ngIf="errorMessage.code === 'UserLambdaValidationException'"
+        class="alert alert-danger">
+        <h3>A user with that email address already exists!</h3>
+        <p>
+          If you'd like to reset your password, send an email to <strong> <a
+              class='text-info'
+              href="mailto:info@hackerpile.com?subject=I'd like to reset my password&body=Hi, I'd like to reset my password on HackerPile. My account information is: ">info@hackerpile.com</a></strong>.
+          <i class="fa fa-smile"></i>
+        </p>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
     <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3">
-      <form *ngIf="!isLoading && !didSucceed" class="text-center jumbotron py-3"
-        (ngSubmit)="onSubmit()" #signupForm="ngForm">
-        <div class="form-group">
-          <label for="name" class="control-label">Name</label>
-          <input type="text" id="name" name="name" ngModel class="form-control text-center"
-            required>
-        </div>
-        <div class="form-group">
-          <label for="username" class="control-label">Username</label>
-          <input type="text" id="username" name="username" ngModel class="form-control text-center"
-            required>
-        </div>
-        <div class="form-group">
-          <label for="email" class="control-label">Email</label>
-          <input type="email" id="email" name="email" ngModel class="form-control text-center"
-            required email>
-        </div>
-        <div class="form-group">
-          <label for="password" class="control-label">Password</label>
-          <input type="password" id="password" name="password" ngModel class="form-control text-center"
-            required>
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword" class="control-label">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword"
-            ngModel class="form-control text-center" required>
-        </div>
-        <div class="alert alert-danger" *ngIf="signupForm.value.password !== signupForm.value.confirmPassword">Passwords
-          do not match!</div>
-        <button class="btn btn-outline-info" type="submit" [disabled]="(signupForm.value.password !== signupForm.value.confirmPassword) || signupForm.invalid">Submit
-        </button>
-      </form>
-      <div class="alert alert-success" *ngIf="didSucceed">
+      <div class="alert alert-success"
+        *ngIf="didSucceed">
         <h3>You're signed up!</h3>
         <h4> Next step: check your email</h4>
         <p>You should be receiving a verification email any second. Make sure
-          you check your junk and spam folders!</p>
-        <!-- <p>If you've waited a bit and still think you won't be getting the email, try <a href="/"><strong>resending the
-              verification email</strong></a></p> -->
+          you check your junk and spam folders! </p>
+        <p>If you're confident that you won't be receiving a verification code,
+          please send us an email at <strong> <a class='text-info'
+              href="mailto:info@hackerpile.com?subject=I'd like to verify my account&body=Hi, I'd like to complete the account registration process. My account information is: ">info@hackerpile.com</a></strong>
+          and we'll finish the signup process for you!</p>
       </div>
-      <div *ngIf="isLoading" class="loader"></div>
+      <div *ngIf="isLoading"
+        class="loader"></div>
+
+      <form *ngIf="!didSucceed"
+        class="text-center jumbotron py-3"
+        (ngSubmit)="onSubmit()"
+        #signupForm="ngForm">
+        <div class="form-group">
+          <label for="name"
+            class="control-label">Name</label>
+          <input type="text"
+            id="name"
+            name="name"
+            ngModel=""
+            class="form-control text-center"
+            required>
+        </div>
+        <div class="form-group">
+          <label for="username"
+            class="control-label">Username</label>
+          <input type="text"
+            id="username"
+            name="username"
+            ngModel=""
+            class="form-control text-center"
+            required>
+        </div>
+        <div class="form-group">
+          <label for="email"
+            class="control-label">Email</label>
+          <input type="email"
+            id="email"
+            name="email"
+            ngModel=""
+            class="form-control text-center"
+            required
+            email>
+        </div>
+        <div class="form-group">
+          <label for="password"
+            class="control-label">Password &nbsp;<i class="fa fa-question-circle-o text-info mr-1"
+              placement="right"
+              ngbTooltip="Your password must contain at least one capital letter and one number"></i></label>
+          <input type="password"
+            id="password"
+            name="password"
+            ngModel=""
+            class="form-control text-center"
+            required>
+
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword"
+            class="control-label">Confirm Password</label>
+          <input type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            ngModel=""
+            class="form-control text-center"
+            required>
+        </div>
+        <div class="alert alert-danger"
+          *ngIf="signupForm.value.password !== signupForm.value.confirmPassword">Passwords
+          do not match!</div>
+        <button class="btn btn-outline-info"
+          type="submit"
+          [disabled]="(signupForm.value.password !== signupForm.value.confirmPassword) || signupForm.invalid">Submit
+        </button>
+      </form>
+
     </div>
   </div>
 
