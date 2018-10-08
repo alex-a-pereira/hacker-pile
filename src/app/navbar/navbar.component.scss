@@ -1,0 +1,15 @@
+.nav-link {
+  height: 100%;
+  margin: 0 12px 0;
+  color: #cacaca !important;
+  transition: ease-in-out color 0.15s;
+}
+.nav-link:hover {
+  color: rgb(33, 150, 169) !important;
+  text-decoration: none;
+}
+
+.active-link {
+  color: rgb(33, 150, 169) !important;
+  text-decoration: none;
+}

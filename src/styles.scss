@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+@import "../node_modules/codemirror/lib/codemirror.css";
+@import "../node_modules/codemirror/theme/neo.css";
+
+.CodeMirror {
+  min-height: 350px;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.loader {
+  border: 16px solid #f8f9fa; /* Light grey */
+  border-top: 16px solid rgb(33, 150, 169); /* dark */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+  margin: 10px auto 10px auto;
+}
+
+.loader-mini {
+  border: 4.8px solid #f8f9fa; /* Light grey */
+  border-top: 4.8px solid rgb(33, 150, 169); /* dark */
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 2s linear infinite;
+  margin: 2px auto 2px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sharp {
+  border-radius: 0 !important;
+}
+
+.form-control:focus {
+  border-color: rgb(33, 150, 169);
+  box-shadow: 0 0 12px rgba(33, 150, 169, 0.8);
+}

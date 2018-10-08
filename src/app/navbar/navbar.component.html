@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <a *ngIf="isAuthenticated"
+      class="navbar-brand"
+      routerLink="/files">
+      <strong>HackerPile</strong>
+    </a>
+    <a *ngIf="!isAuthenticated"
+      class="navbar-brand"
+      routerLink="/">
+      <strong>HackerPile</strong>
+    </a>
+    <button class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse text-center"
+      id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link d-md-inline-block"
+            routerLink="/docs"
+            routerLinkActive="active-link">How
+            it works</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-md-inline-block"
+            routerLink="/about"
+            routerLinkActive="active-link">About
+            us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-md-inline-block"
+            routerLink="/stack"
+            routerLinkActive="active-link">Our stack</a>
+        </li>
+
+
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a *ngIf="isAuthenticated"
+            class="nav-link d-md-inline-block"
+            routerLink="/files"
+            routerLinkActive="active-link">Files</a>
+          <a *ngIf="!isAuthenticated"
+            class="nav-link d-md-inline-block"
+            routerLink="/signup"
+            routerLinkActive="active-link">Sign
+            up</a>
+
+        </li>
+
+        <li class="nav-item">
+          <a *ngIf="isAuthenticated"
+            class="nav-link d-md-inline-block"
+            (click)="handleSignOut()"
+            routerLink="/">Sign out</a>
+          <a *ngIf="!isAuthenticated"
+            class="nav-link d-md-inline-block"
+            routerLink="/signin"
+            routerLinkActive="active-link">Sign
+            in</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
