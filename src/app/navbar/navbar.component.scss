@@ -1,17 +1,15 @@
-.container {
-  max-width: 960px;
+.nav-link {
+  height: 100%;
+  margin: 0 12px 0;
+  color: #cacaca !important;
+  transition: ease-in-out color 0.15s;
+}
+.nav-link:hover {
+  color: rgb(33, 150, 169) !important;
+  text-decoration: none;
 }
 
-.site-header {
-  background-color: rgba(0, 0, 0, .8);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-}
-.site-header a {
-  color: #cacaca;
-  transition: ease-in-out color .15s;
-}
-.site-header a:hover {
-  color: #fff;
+.active-link {
+  color: rgb(33, 150, 169) !important;
   text-decoration: none;
 }

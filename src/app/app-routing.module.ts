@@ -11,6 +11,8 @@ import { SignupComponent } from "./user-auth/signup/signup.component";
 import { LandingPageComponent } from "./static-pages/landing-page/landing-page.component";
 import { AboutPageComponent } from "./static-pages/about-page/about-page.component";
 import { DocsPageComponent } from "./static-pages/docs-page/docs-page.component";
+import { ContactPageComponent } from "./static-pages/contact-page/contact-page.component";
+import { StackPageComponent } from "./static-pages/stack-page/stack-page.component";
 
 const routes: Routes = [
   { path: "", component: LandingPageComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: "about", component: AboutPageComponent },
   { path: "signin", component: SigninComponent },
   { path: "signup", component: SignupComponent },
+  { path: "contact", component: ContactPageComponent },
+  { path: "stack", component: StackPageComponent },
   { path: "files", canActivate: [AuthGuardService], component: FilesComponent },
   { path: "*", component: LandingPageComponent }
 ];

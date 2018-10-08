@@ -18,7 +18,7 @@ export class SigninComponent implements OnInit {
     this.authService.authIsLoading.subscribe(
       (isLoading: boolean) => (this.isLoading = isLoading)
     );
-    this.authService.authDidFail.subscribe(
+    this.authService.signinDidFail.subscribe(
       (didFail: boolean) => (this.didFail = didFail)
     );
   }

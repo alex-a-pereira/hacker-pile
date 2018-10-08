@@ -14,7 +14,7 @@ const nullFile = {
 // auth
 import { UserAuthService } from "../user-auth/user-auth.service";
 // models
-import { FileData, DirectoryFile, NewFile, UpdateFile } from "./files.model";
+import { FileData, DirectoryFile, NewFile } from "./files.model";
 
 @Injectable({
   providedIn: "root"
@@ -32,15 +32,22 @@ export class FilesService {
   deletingFile = new Subject<boolean>();
   deleteFileFailed = new Subject<boolean>();
 
-  // appState: AppState = AppState.VIEW;
+  updatingFile = new Subject<boolean>();
+  updateFileFailed = new Subject<boolean>();
+
+  directoryIsLoading = new BehaviorSubject<boolean>(false);
+  mainIsLoading = new BehaviorSubject<boolean>(false);
 
   constructor(private http: Http, private authService: UserAuthService) {}
 
   onRetrieveFileDirectory(selectIdx = -999) {
     this.directoryLoadFailed.next(false);
+    this.directoryIsLoading.next(true);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
+        this.directoryIsLoading.next(false);
+        this.directoryLoadFailed.next(true);
         console.log(err);
         return;
       }
@@ -57,17 +64,19 @@ export class FilesService {
         .subscribe(
           receivedFiles => {
             if (receivedFiles) {
+              this.directoryIsLoading.next(false);
               this.directoryFiles.next(receivedFiles);
               if (selectIdx >= 0) {
                 this.onSelectFile(receivedFiles[selectIdx].FileId);
               }
             } else {
-              console.log("No files returned from API call");
+              this.directoryIsLoading.next(false);
               this.directoryLoadFailed.next(true);
             }
           },
           error => {
             console.log(error);
+            this.directoryIsLoading.next(false);
             this.directoryLoadFailed.next(true);
             this.directoryFiles.next(null);
           }
@@ -78,13 +87,15 @@ export class FilesService {
   onSelectFile(fileId: string) {
     this.creatingFile.next(false);
     this.deletingFile.next(false);
-    // this.selectedFile.next(null);
+    this.mainIsLoading.next(true);
+
     this.selectedFileLoadFailed.next(false);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
-        this.selectedFile.next(null);
         console.log(err);
+        this.selectedFile.next(null);
+        this.mainIsLoading.next(false);
         return;
       }
       this.http
@@ -101,15 +112,17 @@ export class FilesService {
         .subscribe(
           file => {
             if (file) {
-              console.log("good", file);
               this.selectedFile.next(file);
+              this.mainIsLoading.next(false);
             } else {
               this.selectedFileLoadFailed.next(true);
+              this.mainIsLoading.next(false);
             }
           },
           error => {
             this.selectedFileLoadFailed.next(true);
             this.directoryFiles.next(null);
+            this.mainIsLoading.next(false);
           }
         );
     });
@@ -117,9 +130,11 @@ export class FilesService {
 
   onDeleteFileSubmit(fileId: string) {
     this.deleteFileFailed.next(false);
+    this.mainIsLoading.next(true);
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
+        this.mainIsLoading.next(false);
         console.log(err);
         return;
       }
@@ -137,17 +152,19 @@ export class FilesService {
         .subscribe(
           deleteStatus => {
             if (deleteStatus) {
-              console.log("deleted", deleteStatus);
               this.onRetrieveFileDirectory(0);
               this.deletingFile.next(false);
+              this.mainIsLoading.next(false);
             } else {
               this.deleteFileFailed.next(true);
               this.deletingFile.next(false);
+              this.mainIsLoading.next(false);
             }
           },
           error => {
             this.deleteFileFailed.next(true);
             this.deletingFile.next(false);
+            this.mainIsLoading.next(false);
           }
         );
     });
@@ -155,10 +172,12 @@ export class FilesService {
 
   onCreateFileSubmit(data: NewFile) {
     this.selectedFileLoadFailed.next(false);
-    // this.dataEdited.next(false);
+    this.mainIsLoading.next(true);
+
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
         console.log(err);
+        this.mainIsLoading.next(false);
         return;
       }
       this.http
@@ -180,17 +199,27 @@ export class FilesService {
           error => {
             this.selectedFileLoadFailed.next(true);
             console.log(error);
+            this.mainIsLoading.next(false);
           }
         );
     });
   }
 
-  onUpdateFile(data: UpdateFile) {
-    const fileId = data.fileId;
-    console.log(data);
+  onUpdateFile(data: FileData) {
+    const fileId = data.FileId;
+    this.updatingFile.next(true);
+
+    const submission = {
+      fileId: data.FileId,
+      fileName: data.FileName,
+      fileNotes: escape(data.FileNotes),
+      fileContent: escape(data.FileContent)
+    };
 
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
+        this.updatingFile.next(false);
+        this.updateFileFailed.next(true);
         console.log(err);
         return;
       }
@@ -198,7 +227,7 @@ export class FilesService {
         .put(
           "https://adqe8hh6ni.execute-api.us-east-1.amazonaws.com/dev/files/" +
             fileId,
-          data,
+          submission,
           {
             headers: new Headers({
               Authorization: session.getIdToken().getJwtToken()
@@ -209,13 +238,19 @@ export class FilesService {
         .subscribe(
           updateStatus => {
             if (updateStatus) {
-              console.log("updated", updateStatus);
+              this.selectedFile.next(data);
+              this.updatingFile.next(false);
+              this.updateFileFailed.next(false);
             } else {
-              console.log("update failed");
+              this.updatingFile.next(false);
+              this.updateFileFailed.next(true);
+              console.log(updateStatus);
             }
           },
           error => {
-            console.log("update failed", error);
+            this.updatingFile.next(false);
+            this.updateFileFailed.next(true);
+            console.log(error);
           }
         );
     });

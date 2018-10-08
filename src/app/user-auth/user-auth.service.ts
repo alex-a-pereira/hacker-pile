@@ -24,9 +24,11 @@ const userPool = new CognitoUserPool(POOL_DATA);
 @Injectable()
 export class UserAuthService {
   authIsLoading = new BehaviorSubject<boolean>(false);
-  authDidFail = new BehaviorSubject<boolean>(false);
+  signinDidFail = new BehaviorSubject<boolean>(false);
+  signupDidFail = new BehaviorSubject<boolean>(false);
   authStatusChanged = new BehaviorSubject<boolean>(false);
   signupSuccess = new Subject<boolean>();
+  signupError = new Subject<object>();
   registeredUser: CognitoUser;
 
   constructor(private router: Router) {}
@@ -39,7 +41,8 @@ export class UserAuthService {
   ): void {
     this.authIsLoading.next(true);
     this.signupSuccess.next(false);
-    
+    this.signupDidFail.next(false);
+
     const user: UserSignup = {
       name: name,
       username: username,
@@ -66,17 +69,18 @@ export class UserAuthService {
       null,
       (err, result) => {
         if (err) {
-          this.authDidFail.next(true);
+          console.log(err);
+          this.signupDidFail.next(true);
           this.authIsLoading.next(false);
-          return;
+          this.signupError.next(err);
+        } else {
+          this.signupDidFail.next(false);
+          this.authIsLoading.next(false);
+          this.signupSuccess.next(true);
+          this.registeredUser = result.user;
         }
-        this.authDidFail.next(false);
-        this.authIsLoading.next(false);
-        this.signupSuccess.next(true);
-        this.registeredUser = result.user;
       }
     );
-
     return;
   }
 
@@ -98,12 +102,11 @@ export class UserAuthService {
     cognitoUser.authenticateUser(authDetails, {
       onSuccess(result: CognitoUserSession) {
         that.authStatusChanged.next(true);
-        that.authDidFail.next(false);
+        that.signinDidFail.next(false);
         that.authIsLoading.next(false);
-        console.log(result);
       },
       onFailure(err) {
-        that.authDidFail.next(true);
+        that.signinDidFail.next(true);
         that.authIsLoading.next(false);
         console.log(err);
       }
@@ -128,7 +131,6 @@ export class UserAuthService {
         observer.next(false);
       } else {
         user.getSession((err, session) => {
-          console.log(user);
           if (err) {
             observer.next(false);
           } else {
@@ -147,7 +149,6 @@ export class UserAuthService {
   }
 
   initAuth() {
-    console.log("init auth");
     this.isAuthenticated().subscribe(auth => this.authStatusChanged.next(auth));
   }
 }
